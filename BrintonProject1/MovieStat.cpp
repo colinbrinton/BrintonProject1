@@ -61,6 +61,8 @@
 // The first inclusion file MUST always be declared and MUST be first in the list
 #include "stdafx.h"  // Defines IDE required external definition files
 #include <iostream>  // Defines objects and classes used for stream I/O
+#include <iomanip>  // Used for formatting
+#include <cmath>    // Needed to use floor
 
 // Namespaces utilized in this program
 using namespace std; // Announces to the compiler that members of the namespace
@@ -527,6 +529,7 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 cout << endl << endl;
 
 	 // Print Average
+	 cout << fixed << showpoint << setprecision(2); //Formating for average
 	 cout << "Average: " << average << endl;
 	 
 	 // Print no mode condition
@@ -536,6 +539,7 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 // Print mode
 	 else
 	 {
+		 cout << noshowpoint << setprecision(0);  //Mode will always be whole number, no need for decimal point
 		 cout << "Mode: " << mode;
 
 		 // Display warning message if multiple modes found
@@ -545,5 +549,12 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 }
 
 	 //Print median
-	 cout << "Median: " << median << endl;
+	 if (floor(median) == median)  //If whole number
+		 cout << "Median: " << median << endl;
+	 else
+	 {
+		 cout << fixed << showpoint << setprecision(2);  //Formating if median has a decimal component
+		 cout << "Median: " << median << endl;
+	 }
+
  }
