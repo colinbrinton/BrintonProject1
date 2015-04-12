@@ -44,10 +44,16 @@
  *
  * File Methods
  * ------------
- *     Name                             Description
- * ------------  --------------------------------------------------------------
- * main          Program entry point method
- * **** Add name and description of any other methods defined in this file ****
+ *     Name                              Description
+ * ------------    --------------------------------------------------------------
+ * main            Program entry point method
+ * getMovies	   Prompts the user to input the number of movies watched, stores responses
+ *					in array.
+ * selectionSort   Sorts the array of the number of movies
+ * calcAvg		   Calculates the average of the array, returns average as double
+ * calcMode		   Calculates and returns the mode if the array, tests for unique conditions
+ * calcMedian	   Calculates the median of the array, returns a double
+ * printArray	   Prints the sorted array and displays the average, median and mode
  *
  ******************************************************************************
  */
@@ -73,15 +79,18 @@ void printArray(int* students, int num, double average, double mode, double medi
 * 
 * Method Description
 * ------------------
-* ** For method main(), describe the application program from the client's
-* ** perspective, which includes any User inputs required and expected
-* ** Console output, and any other pertinent information about the program.
-* ** For other methods, describe the functionality of the method.
-* ** This WILL take several lines for a satisfactory description!
+* The program opens with a discription and prompts the user to enter the number
+* of students surveyed. Based on the user's response, the method dynamically
+* allocates an array to store data. The method then calls another method that
+* sorts the array, followed by three more functions that calculate the average,
+* mode and median of the array. Finally printArray is called and the sorted data
+* and statistics is displayed. The method cleans up used memory.
 *
 * Pre-Conditions
 * --------------
-* ** Describe any assumptions made by the method; otherwise specify: None **
+* The user will enter integer values when prompted. 
+* (The array will not contain multiple modes. One mode and error
+* message will display.)
 *
 * Method Arguments
 * ----------------
@@ -98,42 +107,56 @@ void printArray(int* students, int num, double average, double mode, double medi
 *
 * Invoked Methods
 * ---------------
-*     Name                             Description
-* ------------  --------------------------------------------------------------
+*    Name                              Description
+* ------------    --------------------------------------------------------------
+* getMovies	       Prompts the user to input the number of movies watched, stores responses
+*					in array.
+* selectionSort    Sorts the array of the number of movies
+* calcAvg		   Calculates the average of the array, returns average as double
+* calcMode		   Calculates and returns the mode if the array, tests for unique conditions
+* calcMedian	   Calculates the median of the array, returns a double
+* printArray	   Prints the sorted array and displays the average, median and mode
 *
 *******************************************************************************
 */
  int main()          
 {
-	 // Constant "const" Vlaue Declarations
-	 const int NO_ERRORS = 0;
-	 const int MIN = 3;
+	 // Constant "const" Value Declarations
+	 const int NO_ERRORS = 0; 
+	 const int MIN = 3;		 // Min and max values for surveyed students
 	 const int MAX = 10;
 
-	 int num;
+	 // Declaring variables later passed to functions
 	 int* students;
+	 int num;
 
 	 double average, median, mode;
 
+	 // Flag for multiple modes
 	 bool polyMode = NULL;
 
+	 // Program discription
 	 cout << "This program is used to gather statistical data about the" << endl
-		 << "number of movies college students see in a month." << endl << endl;
+		 << "number of movies college students see in a given month." << endl << endl;
 
+	 // Prompt to enter the number of students polled
 	 cout << "Please enter the number of students polled in the survey." << endl
 		 << "Enter a number between 3-10: ";
 
 	 cin >> num;
 	 cout << endl;
 
+	 // Input validation
 	 while ((num < MIN) || (num > MAX))
 	 {
 		 cout << "Invalid entry. Please enter a number between 3-10: ";
 		 cin >> num;
 	 }
 	 
+	 // Dynamic allocation of array to store movie data
 	  students = new int[num];
 
+	  // Function calls
 	  getMovies(students, num);
 	  selectionSort(students, num);
 	  average = calcAvg(students, num);
@@ -155,11 +178,47 @@ void printArray(int* students, int num, double average, double mode, double medi
 	return NO_ERRORS;
 }
 
+ /******************************************************************************
+ * Method: getTests
+ *
+ * Method Description
+ * ------------------
+ * Prompts the user to input number of movies watched. Validates input. Stores the input in an array of
+ * ints
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * User will enter int values
+ *
+ *
+ * Method Arguments
+ * ----------------
+ * Type      Name                          Description
+ * --------  --------  ---------------------------------------------------------
+ * int*		tests		An array of structs to hold movie data
+ * int		num			User inputted number of movies to sort
+ *
+ *
+ * Return Value
+ * ------------
+ * void      No value RETurned by the method
+ *
+ *
+ * Invoked Methods
+ * ---------------
+ *  None
+ *
+ *******************************************************************************
+ */
+
  void getMovies(int* students, int num)
  {
+	 // Constant value declarations
 	 const int MIN = 0;
 	 const int OFFSET = 1;
 
+	 // Temporary value holding
 	 int movieIn;
 
 	 cout << endl;
@@ -168,20 +227,55 @@ void printArray(int* students, int num, double average, double mode, double medi
 		 cout << "Please enter the number of movies that student " << (index + OFFSET) << " watched: ";
 		 cin >> movieIn;
 
+		 //  Input validation
 		 while (movieIn < MIN)
 		 {
 			 cout << "Invalid entry. Please enter a positive integer: ";
 			 cin >> movieIn;
 		 }
 
+		 // Pointer arithmetic used
 		 *(students + index) = movieIn;
 	 }
 	 cout << endl;
  }
 
+ /******************************************************************************
+ * Method: selectionSort()
+ *
+ * Method Description
+ * ------------------
+ * Sorts an array that is passed to it using the selection sort method. It scans the full array, finds the smallest
+ * number and places it at the front.
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * None
+ *
+ *
+ * Method Arguments
+ * ----------------
+ *   Type      Name                          Description
+ * --------  --------     ---------------------------------------------------------
+ * int		num			    User inputted number of tests to sort
+ * int*		students		Array of structs to be sorted based on scores
+ *
+ *
+ * Return Value
+ * ------------
+ * None
+ *
+ *
+ *
+ * Invoked Methods 
+ * --------------
+ * None
+ *
+ *******************************************************************************
+ */
  void selectionSort(int* students, int num)
  {
-
 	 int minIndex;
 	 int minElem;
 	 for (int scan = 0; scan < (num - 1); scan++)
@@ -202,6 +296,42 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 }
  }
 
+ /******************************************************************************
+ * Method: calcAvg()
+ *
+ * Method Description
+ * ------------------
+ * Calcualtes the average of the array it receives. Returns average as a double.
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * Valid arguments will be passed.
+ *
+ *
+ * Method Arguments
+ * ----------------
+ *    Type      Name                          Description
+ * --------  --------    ---------------------------------------------------------
+ * int		  num			User inputted number of tests to sort
+ * int*	      students		Array of structs to be sorted based on scores
+ *
+ *
+ * Return Value
+ * ------------
+ *   Type                              Description
+ * --------  -------------------------------------------------------------------
+ * double       Returns the calculated average of the movie numbers
+ *
+ *
+ *
+ * Invoked Methods
+ * --------------
+ * None
+ *
+ *******************************************************************************
+ */
+
  double calcAvg(int* students, int num)
  {
 	 double sum = 0.0;
@@ -211,6 +341,44 @@ void printArray(int* students, int num, double average, double mode, double medi
 
 	 return (sum / num);
  }
+
+ /******************************************************************************
+ * Method: calcMode()
+ *
+ * Method Description
+ * ------------------
+ * Finds the mode of the array it receives. Returns mode as a double. 
+ * Also detects if there is no mode or if there are multiple modes.
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * Valid arguments will be passed.
+ * Will only return the first mode when multiples exist in an array.
+ *
+ *
+ * Method Arguments
+ * ----------------
+ *    Type      Name                          Description
+ * --------  --------    ---------------------------------------------------------
+ * int		  num			User inputted number of tests to sort
+ * int*	      students		Array of structs to be sorted based on scores
+ *
+ *
+ * Return Value
+ * ------------
+ *   Type                              Description
+ * --------  -------------------------------------------------------------------
+ * double       Returns the mode of the movie numbers
+ *
+ *
+ *
+ * Invoked Methods
+ * --------------
+ * None
+ *
+ *******************************************************************************
+ */
 
  double calcMode(int* students, int num, bool& polyMode)
  {
@@ -246,6 +414,42 @@ void printArray(int* students, int num, double average, double mode, double medi
 		 return mode;
  }
 
+ /******************************************************************************
+ * Method: calcAvg()
+ *
+ * Method Description
+ * ------------------
+ * Calcualtes the median of the array it receives. Returns median as a double.
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * Valid arguments will be passed.
+ *
+ *
+ * Method Arguments
+ * ----------------
+ *    Type      Name                          Description
+ * --------  --------    ---------------------------------------------------------
+ * int		  num			User inputted number of tests to sort
+ * int*	      students		Array of structs to be sorted based on scores
+ *
+ *
+ * Return Value
+ * ------------
+ *   Type                              Description
+ * --------  -------------------------------------------------------------------
+ * double       Returns the median of the movie numbers
+ *
+ *
+ *
+ * Invoked Methods
+ * --------------
+ * None
+ *
+ *******************************************************************************
+ */
+
  double calcMedian(int* students, int num)
  {
 	 const int OFFSET = 1;
@@ -268,6 +472,46 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 return median;
  }
 
+ /******************************************************************************
+ * Method: printArray()
+ *
+ * Method Description
+ * ------------------
+ * When called this method prints the contents of the array passed to it.
+ * The function also prints the average.
+ *
+ *
+ * Pre-Conditions
+ * --------------
+ * None
+ *
+ *
+ * Method Arguments
+ * ----------------
+ *   Type      Name                          Description
+ * --------  --------  ---------------------------------------------------------
+ *	int		  num			User inputted number of tests to sort
+ *	int*	  students		Array of structs to be sorted based on scores
+ *  double	  average		The calculated test score average
+ *  double    mode			The mode of the array
+ *  double    median		The median of the array
+ *  bool	  polyMode		If multiple modes exist in the array, this flag will be true
+ *
+ *
+ * Return Value
+ * ------------
+ *   Type                              Description
+ * --------  -------------------------------------------------------------------
+ * void      No value RETurned by the method
+ *
+ *
+ * Invoked Methods
+ * --------------
+ *  None
+ *
+ *******************************************************************************
+ */
+
  void printArray(int* students, int num, double average, double mode, double median, bool polyMode)
  {
 	 const int NO_MODE = -1;
@@ -288,7 +532,7 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 {
 		 cout << "Mode: " << mode;
 		 if (polyMode)
-			 cout << " (Mltiple modes found)";
+			 cout << " (Error: Multiple modes found)";
 		 cout << endl;
 	 }
 	 cout << "Median: " << median << endl;
