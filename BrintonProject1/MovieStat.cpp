@@ -64,7 +64,9 @@ using namespace std; // Announces to the compiler that members of the namespace
 void getMovies(int* students, int num);
 void selectionSort(int* students, int num);
 double calcAvg(int* students, int num);
-void printArray(int* students, int num, double average);
+double calcMode(int* students, int num);
+double calcMedian(int* students, int num);
+void printArray(int* students, int num, double average, double mode, double median);
 
 /******************************************************************************
 * Method: main()
@@ -111,7 +113,7 @@ void printArray(int* students, int num, double average);
 	 int num;
 	 int* students;
 
-	 double average;
+	 double average, median, mode;
 
 	 cout << "This program is used to gather statistical data about the" << endl
 		 << "number of movies college students see in a month." << endl << endl;
@@ -133,7 +135,9 @@ void printArray(int* students, int num, double average);
 	  getMovies(students, num);
 	  selectionSort(students, num);
 	  average = calcAvg(students, num);
-	  printArray(students, num, average);
+	  mode = calcMode(students, num);
+	  median = calcMedian(students, num);
+	  printArray(students, num, average, mode, median);
 
 	  // Clear used memory
 	  delete[] students;
@@ -156,6 +160,7 @@ void printArray(int* students, int num, double average);
 
 	 int movieIn;
 
+	 cout << endl;
 	 for (int index = 0; index < num; index++)
 	 {
 		 cout << "Please enter the number of movies that student " << (index + OFFSET) << " watched: ";
@@ -205,15 +210,64 @@ void printArray(int* students, int num, double average);
 	 return (sum / num);
  }
 
- void printArray(int* students, int num, double average)
+ double calcMode(int* students, int num)
+ {
+	 const int OFFSET = 1;
+	 int counter = OFFSET;
+	 int max = NULL;
+	 int mode = *students;
+	 for (int pass = NULL; pass < num - OFFSET; pass++)
+	 {
+		 if (*(students + pass) == *(students + pass + OFFSET))
+		 {
+			 counter++;
+			 if (counter > max)
+			 {
+				 max = counter;
+				 mode = *(students + pass);
+			 }
+		 }
+		 else
+			 counter = OFFSET; // reset counter.
+	 }
+	 return mode;
+ }
+
+ double calcMedian(int* students, int num)
+ {
+	 const int OFFSET = 1;
+	 const int TWO = 2;
+	 const double DOUBLE_TWO = 2.0;
+
+	 double median;
+
+	 // is the # of elements odd?
+	 if (num % TWO != NULL)
+	 {
+		 int temp = ((num + OFFSET) / TWO) - OFFSET;
+		 median = *(students + temp);
+	 }
+	 // then it's even 
+	 else
+	 {
+		 median = (*(students + ((num / TWO) - OFFSET)) + *(students + (num / TWO))) / DOUBLE_TWO;
+	 }
+	 return median;
+ }
+
+ void printArray(int* students, int num, double average, double mode, double median)
  {
 
-	 cout << "These are the number of movies you entered in ascending order." << endl << endl;
+	 cout << "These are the number of movies you entered in ascending order:" << endl << endl;
 	 for (int count = 0; count < num; count++)
 	 {
-		 cout << *(students + count) << endl;
+		 if (count < num && !(count == NULL))
+			 cout << ", ";
+		 cout << *(students + count);
 	 }
-	 cout << endl;
+	 cout << endl << endl;
 
-	 cout << "Average Score: " << average << endl;
+	 cout << "Average: " << average << endl;
+	 cout << "Mode: " << mode << endl;
+	 cout << "Median: " << median << endl;
  }
