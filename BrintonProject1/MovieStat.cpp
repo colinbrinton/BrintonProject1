@@ -1,6 +1,6 @@
 /******************************************************************************
  * Bellevue Class: PROG 113
- *           Term: Speing 2015
+ *           Term: Spring 2015
  *     Instructor: Robert Main
  *
  * Solution/Project Name: BrintonProject1
@@ -33,7 +33,7 @@
  * ---------------
  *  Device                            Description
  * --------  ------------------------------------------------------------------
- * Monitor   Program discription displayed
+ * Monitor   Program description displayed
  *			 Prompt to enter the number of students surveyed
  *			 Input validation error (if applicable)
  *			 Prompt to enter the number of movies for each student
@@ -79,7 +79,7 @@ void printArray(int* students, int num, double average, double mode, double medi
 * 
 * Method Description
 * ------------------
-* The program opens with a discription and prompts the user to enter the number
+* The program opens with a description and prompts the user to enter the number
 * of students surveyed. Based on the user's response, the method dynamically
 * allocates an array to store data. The method then calls another method that
 * sorts the array, followed by three more functions that calculate the average,
@@ -135,7 +135,7 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 // Flag for multiple modes
 	 bool polyMode = NULL;
 
-	 // Program discription
+	 // Program description
 	 cout << "This program is used to gather statistical data about the" << endl
 		 << "number of movies college students see in a given month." << endl << endl;
 
@@ -196,7 +196,7 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  * Type      Name                          Description
  * --------  --------  ---------------------------------------------------------
- * int*		tests		An array of structs to hold movie data
+ * int*		tests		An array of ints to hold movie data
  * int		num			User inputted number of movies to sort
  *
  *
@@ -258,8 +258,8 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  *   Type      Name                          Description
  * --------  --------     ---------------------------------------------------------
- * int		num			    User inputted number of tests to sort
- * int*		students		Array of structs to be sorted based on scores
+ * int		num			    User inputted number of movie numbers to sort
+ * int*		students		Array of ints to be sorted based on number of movies
  *
  *
  * Return Value
@@ -301,7 +301,7 @@ void printArray(int* students, int num, double average, double mode, double medi
  *
  * Method Description
  * ------------------
- * Calcualtes the average of the array it receives. Returns average as a double.
+ * Calculates the average of the array it receives. Returns average as a double.
  *
  *
  * Pre-Conditions
@@ -313,9 +313,8 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  *    Type      Name                          Description
  * --------  --------    ---------------------------------------------------------
- * int		  num			User inputted number of tests to sort
- * int*	      students		Array of structs to be sorted based on scores
- *
+ * int		  num			User inputted number of movies numbers to sort
+ * int*	      students		Array of ints holding movie numbers
  *
  * Return Value
  * ------------
@@ -361,8 +360,8 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  *    Type      Name                          Description
  * --------  --------    ---------------------------------------------------------
- * int		  num			User inputted number of tests to sort
- * int*	      students		Array of structs to be sorted based on scores
+ * int		  num			User inputted number of movie numbers to sort
+ * int*	      students		Array of ints holding movie numbers
  *
  *
  * Return Value
@@ -419,7 +418,7 @@ void printArray(int* students, int num, double average, double mode, double medi
  *
  * Method Description
  * ------------------
- * Calcualtes the median of the array it receives. Returns median as a double.
+ * Calculates the median of the array it receives. Returns median as a double.
  *
  *
  * Pre-Conditions
@@ -431,8 +430,8 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  *    Type      Name                          Description
  * --------  --------    ---------------------------------------------------------
- * int		  num			User inputted number of tests to sort
- * int*	      students		Array of structs to be sorted based on scores
+ * int		  num			User inputted number of movies
+ * int*	      students		Array of ints to be sorted based on movie numbers
  *
  *
  * Return Value
@@ -458,13 +457,13 @@ void printArray(int* students, int num, double average, double mode, double medi
 
 	 double median;
 
-	 // is the # of elements odd?
+	 // If the the number of elements odd
 	 if (num % TWO != NULL)
 	 {
 		 int temp = ((num + OFFSET) / TWO) - OFFSET;
 		 median = *(students + temp);
 	 }
-	 // then it's even 
+	 // If the number of elements is even 
 	 else
 	 {
 		 median = (*(students + ((num / TWO) - OFFSET)) + *(students + (num / TWO))) / DOUBLE_TWO;
@@ -490,9 +489,9 @@ void printArray(int* students, int num, double average, double mode, double medi
  * ----------------
  *   Type      Name                          Description
  * --------  --------  ---------------------------------------------------------
- *	int		  num			User inputted number of tests to sort
- *	int*	  students		Array of structs to be sorted based on scores
- *  double	  average		The calculated test score average
+ *	int		  num			User inputted number of movies to sort
+ *	int*	  students		Array of ints to be sorted based on the number of movies
+ *  double	  average		The movie number average
  *  double    mode			The mode of the array
  *  double    median		The median of the array
  *  bool	  polyMode		If multiple modes exist in the array, this flag will be true
@@ -514,8 +513,10 @@ void printArray(int* students, int num, double average, double mode, double medi
 
  void printArray(int* students, int num, double average, double mode, double median, bool polyMode)
  {
+	 //Constant value, flag for no mode
 	 const int NO_MODE = -1;
 
+	 // Print sorted array
 	 cout << "These are the number of movies you entered in ascending order:" << endl << endl;
 	 for (int count = 0; count < num; count++)
 	 {
@@ -525,15 +526,24 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 }
 	 cout << endl << endl;
 
+	 // Print Average
 	 cout << "Average: " << average << endl;
+	 
+	 // Print no mode condition
 	 if (mode == NO_MODE)
 		 cout << "Mode: No mode found" << endl;
+
+	 // Print mode
 	 else
 	 {
 		 cout << "Mode: " << mode;
+
+		 // Display warning message if multiple modes found
 		 if (polyMode)
-			 cout << " (Error: Multiple modes found)";
+			 cout << " (Warning: Displaying one of multiple modes)";
 		 cout << endl;
 	 }
+
+	 //Print median
 	 cout << "Median: " << median << endl;
  }
