@@ -62,6 +62,9 @@ using namespace std; // Announces to the compiler that members of the namespace
 
 // Function Prototypes
 void getMovies(int* students, int num);
+void selectionSort(int* students, int num);
+double calcAvg(int* students, int num);
+void printArray(int* students, int num, double average);
 
 /******************************************************************************
 * Method: main()
@@ -108,6 +111,8 @@ void getMovies(int* students, int num);
 	 int num;
 	 int* students;
 
+	 double average;
+
 	 cout << "This program is used to gather statistical data about the" << endl
 		 << "number of movies college students see in a month." << endl << endl;
 
@@ -126,6 +131,9 @@ void getMovies(int* students, int num);
 	  students = new int[num];
 
 	  getMovies(students, num);
+	  selectionSort(students, num);
+	  average = calcAvg(students, num);
+	  printArray(students, num, average);
 
 	  // Clear used memory
 	  delete[] students;
@@ -164,3 +172,48 @@ void getMovies(int* students, int num);
 	 cout << endl;
  }
 
+ void selectionSort(int* students, int num)
+ {
+
+	 int minIndex;
+	 int minElem;
+	 for (int scan = 0; scan < (num - 1); scan++)
+	 {
+		 minIndex = scan;
+		 minElem = *(students + scan);
+		 for (int index = scan + 1; index < num; index++)
+		 {
+			 if (*(students + index) < minElem)
+			 {
+				 minElem = *(students + index);
+				 minIndex = index;
+			 }
+		 }
+		 *(students + minIndex) = *(students + scan);
+		 *(students + scan) = minElem;
+
+	 }
+ }
+
+ double calcAvg(int* students, int num)
+ {
+	 double sum = 0.0;
+
+	 for (int count = 0; count < num; count++)
+		 sum += *(students + count);
+
+	 return (sum / num);
+ }
+
+ void printArray(int* students, int num, double average)
+ {
+
+	 cout << "These are the number of movies you entered in ascending order." << endl << endl;
+	 for (int count = 0; count < num; count++)
+	 {
+		 cout << *(students + count) << endl;
+	 }
+	 cout << endl;
+
+	 cout << "Average Score: " << average << endl;
+ }
