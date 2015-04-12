@@ -64,9 +64,9 @@ using namespace std; // Announces to the compiler that members of the namespace
 void getMovies(int* students, int num);
 void selectionSort(int* students, int num);
 double calcAvg(int* students, int num);
-double calcMode(int* students, int num);
+double calcMode(int* students, int num, bool& polyMode);
 double calcMedian(int* students, int num);
-void printArray(int* students, int num, double average, double mode, double median);
+void printArray(int* students, int num, double average, double mode, double median, bool polyMode);
 
 /******************************************************************************
 * Method: main()
@@ -115,6 +115,8 @@ void printArray(int* students, int num, double average, double mode, double medi
 
 	 double average, median, mode;
 
+	 bool polyMode = NULL;
+
 	 cout << "This program is used to gather statistical data about the" << endl
 		 << "number of movies college students see in a month." << endl << endl;
 
@@ -135,9 +137,9 @@ void printArray(int* students, int num, double average, double mode, double medi
 	  getMovies(students, num);
 	  selectionSort(students, num);
 	  average = calcAvg(students, num);
-	  mode = calcMode(students, num);
+	  mode = calcMode(students, num, polyMode);
 	  median = calcMedian(students, num);
-	  printArray(students, num, average, mode, median);
+	  printArray(students, num, average, mode, median, polyMode);
 
 	  // Clear used memory
 	  delete[] students;
@@ -210,12 +212,14 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 return (sum / num);
  }
 
- double calcMode(int* students, int num)
+ double calcMode(int* students, int num, bool& polyMode)
  {
 	 const int OFFSET = 1;
+	 const int NO_MODE = -1;
 	 int counter = OFFSET;
 	 int max = NULL;
 	 int mode = *students;
+
 	 for (int pass = NULL; pass < num - OFFSET; pass++)
 	 {
 		 if (*(students + pass) == *(students + pass + OFFSET))
@@ -226,11 +230,20 @@ void printArray(int* students, int num, double average, double mode, double medi
 				 max = counter;
 				 mode = *(students + pass);
 			 }
+			 else if (counter == max)
+				 polyMode = true;
 		 }
+
 		 else
 			 counter = OFFSET; // reset counter.
 	 }
-	 return mode;
+	 if (max == NULL)
+	 {
+		 mode = NO_MODE;
+		 return mode;
+	 }
+	 else
+		 return mode;
  }
 
  double calcMedian(int* students, int num)
@@ -255,8 +268,9 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 return median;
  }
 
- void printArray(int* students, int num, double average, double mode, double median)
+ void printArray(int* students, int num, double average, double mode, double median, bool polyMode)
  {
+	 const int NO_MODE = -1;
 
 	 cout << "These are the number of movies you entered in ascending order:" << endl << endl;
 	 for (int count = 0; count < num; count++)
@@ -268,6 +282,14 @@ void printArray(int* students, int num, double average, double mode, double medi
 	 cout << endl << endl;
 
 	 cout << "Average: " << average << endl;
-	 cout << "Mode: " << mode << endl;
+	 if (mode == NO_MODE)
+		 cout << "Mode: No mode found" << endl;
+	 else
+	 {
+		 cout << "Mode: " << mode;
+		 if (polyMode)
+			 cout << " (Mltiple modes found)";
+		 cout << endl;
+	 }
 	 cout << "Median: " << median << endl;
  }
