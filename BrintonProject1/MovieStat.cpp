@@ -60,6 +60,9 @@
 using namespace std; // Announces to the compiler that members of the namespace
                      // "std" are utilized in this program
 
+// Function Prototypes
+void getMovies(int* students, int num);
+
 /******************************************************************************
 * Method: main()
 * 
@@ -99,10 +102,34 @@ using namespace std; // Announces to the compiler that members of the namespace
 {
 	 // Constant "const" Vlaue Declarations
 	 const int NO_ERRORS = 0;
+	 const int MIN = 3;
+	 const int MAX = 10;
 
+	 int num;
+	 int* students;
 
+	 cout << "This program is used to gather statistical data about the" << endl
+		 << "number of movies college students see in a month." << endl << endl;
 
+	 cout << "Please enter the number of students polled in the survey." << endl
+		 << "Enter a number between 3-10: ";
 
+	 cin >> num;
+	 cout << endl;
+
+	 while ((num < MIN) || (num > MAX))
+	 {
+		 cout << "Invalid entry. Please enter a number between 3-10: ";
+		 cin >> num;
+	 }
+	 
+	  students = new int[num];
+
+	  getMovies(students, num);
+
+	  // Clear used memory
+	  delete[] students;
+	  students = NULL;
 
 	// This prevents the Console Window from closing during debug mode using
 	// the Visual Studio IDE.
@@ -113,4 +140,27 @@ using namespace std; // Announces to the compiler that members of the namespace
 
 	return NO_ERRORS;
 }
+
+ void getMovies(int* students, int num)
+ {
+	 const int MIN = 0;
+	 const int OFFSET = 1;
+
+	 int movieIn;
+
+	 for (int index = 0; index < num; index++)
+	 {
+		 cout << "Please enter the number of movies that student " << (index + OFFSET) << " watched: ";
+		 cin >> movieIn;
+
+		 while (movieIn < MIN)
+		 {
+			 cout << "Invalid entry. Please enter a positive integer: ";
+			 cin >> movieIn;
+		 }
+
+		 *(students + index) = movieIn;
+	 }
+	 cout << endl;
+ }
 
